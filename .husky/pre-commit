@@ -1,0 +1,9 @@
+CURRENT_BRANCH=$(git branch --show-current)
+
+echo "### Checking branch before commit: \"$CURRENT_BRANCH\""
+
+if [ "$CURRENT_BRANCH" = "main" ] || [ "$CURRENT_BRANCH" = "develop" ]; then
+  echo "❌ Do not add commits directly to the main/develop branch"
+
+  exit 1
+fi

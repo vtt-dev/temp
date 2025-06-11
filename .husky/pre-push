@@ -1,0 +1,19 @@
+CURRENT_BRANCH=$(git branch --show-current)
+
+echo "### Checking branch before push: \"$CURRENT_BRANCH\""
+
+if [[ "$CURRENT_BRANCH" == "main" || "$CURRENT_BRANCH" == "develop" ]]; then
+  exit 0
+fi
+
+TYPES="feature|fix|merge"
+
+PATTERN="^($TYPES)/[a-z0-9-]+$"
+
+if ! echo "$CURRENT_BRANCH" | grep -Eq "$PATTERN"; then
+  echo "❌ Invalid branch name format"
+  echo "Expected format: type/feature-name"
+  echo "Example: feature/login-api"
+
+  exit 1
+fi
