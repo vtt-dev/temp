@@ -1,0 +1,30 @@
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(head -n1 "$COMMIT_MSG_FILE")
+
+echo "### Checking commit message: \"$COMMIT_MSG\""
+
+TYPES="feat|fix|merge|release|docs|style|refactor|test|chore"
+
+PATTERN="^($TYPES)\([a-z0-9.-]+\): [a-z0-9. -]+$"
+
+if ! echo "$COMMIT_MSG" | grep -Eq "$PATTERN"; then
+  echo "❌ Invalid commit massage format"
+  echo "Expected format: type(scope): meaningful message"
+  echo "Example: feat(login): add email login support"
+
+  exit 1
+fi
+
+DESCRIPTION=$(echo "$COMMIT_MSG" | cut -d':' -f2- | xargs)
+
+if [ ${#DESCRIPTION} -lt 10 ]; then
+  echo "❌ Commit message description must be at least 10 characters"
+
+  exit 1
+fi
+
+if echo "$DESCRIPTION" | grep -qE '\.$'; then
+  echo "❌ Commit message description must not end with a dot (.)"
+
+  exit 1
+fi
