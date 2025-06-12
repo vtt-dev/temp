@@ -5,7 +5,7 @@ echo "### Checking commit message: \"$COMMIT_MSG\""
 
 TYPES="feat|fix|merge|release|docs|style|refactor|test|chore"
 
-PATTERN="^($TYPES)\([a-z0-9.-]+\): [a-z0-9. -]+$"
+PATTERN="^($TYPES)\([a-z0-9.-]+\): [a-z0-9,. -]+$"
 
 if ! echo "$COMMIT_MSG" | grep -Eq "$PATTERN"; then
   echo "❌ Invalid commit massage format"
